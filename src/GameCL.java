@@ -17,9 +17,8 @@ public class GameCL {
         name(2);
         System.out.println("Введите размер поля:");
         getSize();
+        System.out.println("Игра крестики нолики");
         field1();
-        System.out.println("Игру крестики нолики начинает " +
-                player1);
         game = new ClassForGame(size, player1, player2);
         move();
 
@@ -35,10 +34,11 @@ public class GameCL {
             Scanner in = new Scanner(System.in);
             String ff = in.nextLine();
             int turn = Integer.valueOf(ff);
-            int x = turn / 10;
-            int y = turn % 10;
+            int x = turn / length(turn);
+            int y = turn % length(turn);
             try {
                 game.makeTurn(x, y);
+                System.out.println("");
                 player = !player;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -60,6 +60,7 @@ public class GameCL {
             if (player == 1) player1 = name;
             else player2 = name;
         }
+        System.out.println("");
     }
 
     private void getSize() {
@@ -83,7 +84,7 @@ public class GameCL {
         } else move();
     }
 
-    public void field1() {
+    private void field1() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 System.out.print(i + "" + j + " | ");
@@ -96,7 +97,7 @@ public class GameCL {
         }
     }
 
-    public void field2() {
+    private void field2() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (game.get(i, j) != null) {
@@ -109,5 +110,16 @@ public class GameCL {
             }
             System.out.println("");
         }
+        System.out.println("");
+    }
+
+    private int length(int turn){
+        int len = 0;
+        while (turn != 0){
+            turn/=10;
+            len++;
+        }
+        if (len == 2)return 10;
+        else return 100;
     }
 }
