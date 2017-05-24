@@ -1,4 +1,5 @@
-import java.util.InputMismatchException;
+package logic;
+
 import java.util.Scanner;
 
 public class GameCL {
