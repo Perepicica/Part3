@@ -14,8 +14,8 @@ public class FirstGUI extends Application {
     private Pane root;
     private GeneralScene generalScene;
     private SettingsScene settingsScene;
-   private MainGame mainGame;
-    ClassForGame game ;
+    private MainGame mainGame;
+    ClassForGame game;
 
 
     public static void main(String[] args) {
@@ -66,21 +66,23 @@ public class FirstGUI extends Application {
         primaryStage.show();
 
 
-
     }
-    private void setUpMainGame(){
+
+    private void setUpMainGame() {
         mainGame = new MainGame(settingsScene.getBoardSize());
         mainGame.setVisible(true);
         root.getChildren().add(mainGame);
         mainGame.getBoard().setOnMouseClicked(event -> {
-            double oneCell = mainGame.getBoard().getHeight()/settingsScene.getBoardSize();
-            int positionX = (int) (event.getSceneX()/oneCell);
-            int positionY = (int) (event.getSceneY()/oneCell);
+            double oneCell = mainGame.getBoard().getHeight() / settingsScene.getBoardSize();
+            int column = (int) (event.getSceneX() / oneCell);
+            int row = (int) (event.getSceneY() / oneCell);
+            int x = 5;
             try {
-                game.makeTurn(positionX,positionY);
-                mainGame.change(positionX,positionY,game.getTurn());
+                game.makeTurn(column, row);
+                mainGame.change(column, row, game.getTurn());
 
-            } catch (IllegalArgumentException e) {}
+            } catch (IllegalArgumentException e) {
+            }
         });
     }
 }
