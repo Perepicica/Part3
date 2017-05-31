@@ -11,17 +11,12 @@ public final class ClassForGame {
             return this == X ? O : X;
         }
     }
+    public Move getTurn(){
+        return turn;
+    }
 
     private final int size;
     private String winner ;
-
-    public void setPlayer1(String player1) {
-        this.player1 = player1;
-    }
-
-    public Map<Cell, Move> getMoves() {
-        return moves;
-    }
 
     public String getWinner() {
         return winner;

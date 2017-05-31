@@ -14,7 +14,7 @@ public class FirstGUI extends Application {
     private Pane root;
     private GeneralScene generalScene;
     private SettingsScene settingsScene;
-    private MainGame mainGame;
+   private MainGame mainGame;
     ClassForGame game ;
 
 
@@ -35,8 +35,8 @@ public class FirstGUI extends Application {
 
         settingsScene.getBeginButton().setOnAction(event -> {
             settingsScene.setVisible(false);
-            mainGame.setVisible(true);
-
+            game = new ClassForGame(settingsScene.getBoardSize(), settingsScene.getFirstName(), settingsScene.getSecondName());
+            setUpMainGame();
         });
     }
 
@@ -46,14 +46,12 @@ public class FirstGUI extends Application {
 
         generalScene = new GeneralScene(WIDTH, HEIGHT);
         settingsScene = new SettingsScene();
-        String size = settingsScene.size;
-        mainGame  = new MainGame(size);
 
-        root.getChildren().addAll(generalScene, settingsScene,mainGame);
+
+        root.getChildren().addAll(generalScene, settingsScene);
 
         generalScene.setVisible(true);
         settingsScene.setVisible(false);
-        mainGame.setVisible(false);
 
         setUpButtons();
         return root;
@@ -66,5 +64,23 @@ public class FirstGUI extends Application {
         primaryStage.setResizable(false);
         primaryStage.setTitle("Игра крестики нолики");
         primaryStage.show();
+
+
+
+    }
+    private void setUpMainGame(){
+        mainGame = new MainGame(settingsScene.getBoardSize());
+        mainGame.setVisible(true);
+        root.getChildren().add(mainGame);
+        mainGame.getBoard().setOnMouseClicked(event -> {
+            double oneCell = mainGame.getBoard().getHeight()/settingsScene.getBoardSize();
+            int positionX = (int) (event.getSceneX()/oneCell);
+            int positionY = (int) (event.getSceneY()/oneCell);
+            try {
+                game.makeTurn(positionX,positionY);
+                mainGame.change(positionX,positionY,game.getTurn());
+
+            } catch (IllegalArgumentException e) {}
+        });
     }
 }

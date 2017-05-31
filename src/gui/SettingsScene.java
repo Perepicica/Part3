@@ -9,9 +9,22 @@ import javafx.scene.text.Text;
 public class SettingsScene extends Pane {
     private Button begin;
     private Button next;
-    boolean nameOffer;
-    private Text error;
-    public  String size;
+    private boolean nameOffer;
+    private int size;
+    private String firstName;
+    private String secondName;
+
+    public int getBoardSize() {
+        return size;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
 
     private VBox vbox = new VBox();
 
@@ -19,10 +32,13 @@ public class SettingsScene extends Pane {
         return begin;
     }
 
+
     public SettingsScene() {
         getChildren().add(vbox);
         begin = new Button("Начать игру");
         firstName();
+
+
     }
 
     private void firstName() {
@@ -38,6 +54,7 @@ public class SettingsScene extends Pane {
         next.setOnAction(event -> {
             if (text11.getText().isEmpty()) emptyName(1);
             else {
+                firstName = text11.getText();
                 nameOffer = false;
                 secondName();
             }
@@ -57,13 +74,14 @@ public class SettingsScene extends Pane {
         next.setOnAction(event -> {
             if (text22.getText().isEmpty()) emptyName(2);
             else {
+                secondName = text22.getText();
                 nameOffer = false;
                 fieldSize();
             }
         });
     }
 
-    private void fieldSize() {
+    public void fieldSize() {
         TextField text33 = new TextField();
         next = new Button("Далее");
         if (!nameOffer) {
@@ -77,15 +95,15 @@ public class SettingsScene extends Pane {
             Text error1 = new Text(10, 20, "Введите размер поля");
             Text error2 = new Text(10, 20, "Введите корректный размер поля," +
                     "значение не менее 3 и не более 9");
-            String size = text33.getText();
+            String size1 = text33.getText();
             if (text33.getText().isEmpty()) {
                 vbox.getChildren().add(error1);
                 fieldSize();
-            } else if (size.length() > 1 || size.charAt(0) < '3' || size.charAt(0) > '9') {
+            } else if (size1.length() > 1 || size1.charAt(0) < '3' || size1.charAt(0) > '9') {
                 vbox.getChildren().add(error2);
                 fieldSize();
             } else {
-                size = text33.getText();
+                size = Integer.parseInt(text33.getText());
                 vbox.getChildren().add(begin);
             }
         });
