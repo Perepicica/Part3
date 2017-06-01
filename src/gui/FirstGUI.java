@@ -15,6 +15,7 @@ public class FirstGUI extends Application {
     private GeneralScene generalScene;
     private SettingsScene settingsScene;
     private MainGame mainGame;
+    private WinnerScene winnerScene;
     ClassForGame game;
 
 
@@ -46,12 +47,14 @@ public class FirstGUI extends Application {
 
         generalScene = new GeneralScene(WIDTH, HEIGHT);
         settingsScene = new SettingsScene();
+        winnerScene = new WinnerScene();
 
 
-        root.getChildren().addAll(generalScene, settingsScene);
+        root.getChildren().addAll(generalScene, settingsScene,winnerScene);
 
         generalScene.setVisible(true);
         settingsScene.setVisible(false);
+        winnerScene.setVisible(false);
 
         setUpButtons();
         return root;
@@ -76,11 +79,16 @@ public class FirstGUI extends Application {
             double oneCell = mainGame.getBoard().getHeight() / settingsScene.getBoardSize();
             int column = (int) (event.getSceneX() / oneCell);
             int row = (int) (event.getSceneY() / oneCell);
-            int x = 5;
             try {
                 game.makeTurn(column, row);
                 mainGame.change(column, row, game.getTurn());
+                String winner = game.getWinner();
+                if (winner!=null){
+                    mainGame.setVisible(false);
+                    winnerScene.setWinnerName(winner);
+                    winnerScene.setVisible(true);
 
+                }
             } catch (IllegalArgumentException e) {
             }
         });

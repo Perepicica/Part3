@@ -1,6 +1,8 @@
 package gui;
 
+import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -82,30 +84,15 @@ public class SettingsScene extends Pane {
     }
 
     public void fieldSize() {
-        TextField text33 = new TextField();
-        next = new Button("Далее");
-        if (!nameOffer) {
-            Text text3 = new Text(10, 20, "Введите размер поля:");
-            vbox.getChildren().add(text3);
-            vbox.getChildren().add(text33);
-            vbox.getChildren().add(next);
-            nameOffer = true;
-        }
-        next.setOnAction(event -> {
-            Text error1 = new Text(10, 20, "Введите размер поля");
-            Text error2 = new Text(10, 20, "Введите корректный размер поля," +
-                    "значение не менее 3 и не более 9");
-            String size1 = text33.getText();
-            if (text33.getText().isEmpty()) {
-                vbox.getChildren().add(error1);
-                fieldSize();
-            } else if (size1.length() > 1 || size1.charAt(0) < '3' || size1.charAt(0) > '9') {
-                vbox.getChildren().add(error2);
-                fieldSize();
-            } else {
-                size = Integer.parseInt(text33.getText());
-                vbox.getChildren().add(begin);
-            }
+        ChoiceBox<Integer> choiceBox = new ChoiceBox();
+        Text text3 = new Text(10, 20, "Выберите размер поля:");
+        choiceBox.setItems(FXCollections.observableArrayList(3,4,5,6,7,8,9));
+        vbox.getChildren().add(choiceBox);
+        choiceBox.setValue(3);
+        size = choiceBox.getValue();
+        vbox.getChildren().add(begin);
+        choiceBox.setOnAction(event -> {
+            size = choiceBox.getValue();
         });
     }
 
